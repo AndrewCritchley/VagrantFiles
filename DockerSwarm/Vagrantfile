@@ -1,0 +1,23 @@
+Vagrant.configure("2") do |config|
+	config.vm.box = "ubuntu/trusty64"
+
+	(1..2).each do |i|
+		config.vm.define "swarm_manager#{i}" do |node|
+			node.vm.hostname = "swarm-manager#{i}"
+			node.vm.network :private_network, ip: "10.0.#{i}.5"
+			node.vm.provision "swarm_manager#{i}", type: "shell", path: "setup-docker.sh"
+		    node.vm.provision "swarm_manager#{i}", type: "shell", path: "setup-manager.sh", args: "#{i}"
+		end
+
+	end
+
+	(101..101).each do |i|
+		config.vm.define "swarm_worker#{i}" do |node|
+			node.vm.hostname = "swarm-worker#{i}"
+			node.vm.network :private_network, ip: "10.0.#{i}.5"
+  			node.vm.provision "swarm_worker#{i}", type: "shell", path: "setup-docker.sh"
+		    node.vm.provision "swarm_worker#{i}", type: "shell", path: "setup-worker.sh", args: "#{i}"
+		end
+	end
+	
+end
