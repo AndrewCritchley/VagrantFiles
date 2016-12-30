@@ -1,0 +1,17 @@
+Vagrant.configure("2") do |config|
+
+	config.vm.box = "ubuntu/trusty64"
+  
+	config.vm.define "linuxdev" do |linuxdev|
+		linuxdev.vm.hostname = "linuxdev"
+		linuxdev.vm.network :private_network, ip: "172.31.0.67"
+
+		config.vm.provision :puppet do |puppet|
+			puppet.manifests_path = "../../LinuxDevelopmentEnvironment/manifests"
+			puppet.manifest_file = "site.pp"
+			puppet.module_path = "../../LinuxDevelopmentEnvironment/modules"
+			puppet.options = "--verbose --debug"
+		end
+	end
+
+end
