@@ -1,0 +1,12 @@
+Vagrant.configure("2") do |config|
+
+	config.vm.box = "ubuntu/trusty64"
+  
+	config.vm.define "seleniumhub" do |seleniumhub|
+		seleniumhub.vm.hostname = "seleniumhub"
+		seleniumhub.vm.network :private_network, ip: "172.31.0.240"
+		seleniumhub.vm.provision "docker", type: "shell", path: "setup-docker.sh"
+		seleniumhub.vm.provision "selenium", type: "shell", path: "run-selenium-containers.sh"
+	end
+
+end
