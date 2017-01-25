@@ -1,0 +1,3 @@
+- docker build -t myapache:latest .
+- docker run -dit -p 80:80 myapache:latest
+-  docker exec -it 3e09c9e9d125 cat htdocs/index.html
